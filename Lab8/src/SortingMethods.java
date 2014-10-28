@@ -25,8 +25,44 @@ public class SortingMethods {
 		 * Creating Comparable arrays and then casting them to T arrays is a bit of a 
 		 * hack, but it works.
 		 */
-		Comparable[] leftHalf = new Comparable[arr.length / 2];
-		Comparable[] rightHalf = new Comparable[arr.length - leftHalf.length];
+		if (arr.length > 1) {
+			Comparable[] leftHalf = new Comparable[arr.length / 2];
+			for (int i = 0; i < arr.length / 2; i++) {
+				leftHalf[i] = arr[i];
+			}
+			Comparable[] rightHalf = new Comparable[arr.length - leftHalf.length];
+			for (int i = arr.length/2; i < arr.length; i++) {
+				rightHalf[i - arr.length/2] = arr[i];
+			}
+			mergeSort(leftHalf);
+			mergeSort(rightHalf);
+			merge(arr, leftHalf, rightHalf);
+		}
 		
+	}
+
+
+	private static void merge(Comparable[] arr, Comparable[] leftHalf, Comparable[] rightHalf) {
+		int nextIndex = 0;
+		int leftIndex = 0;
+		int rightIndex = 0;
+		while(leftIndex < leftHalf.length && rightIndex < rightHalf.length){
+			if (leftHalf[leftIndex].compareTo(rightHalf[rightIndex]) <= 0) {
+				arr[nextIndex++] = leftHalf[leftIndex++];
+				
+			} else {
+				arr[nextIndex++] = rightHalf[rightIndex++];
+			}
+		}
+		if(leftIndex > leftHalf.length){
+			for(int i = rightIndex; i < rightHalf.length; i++){
+				arr[nextIndex++] = rightHalf[i]; 
+			}
+		}
+		else{
+			for(int i = leftIndex; i < leftHalf.length; i++){
+				arr[nextIndex++] = leftHalf[i];
+			}
+		}
 	}
 }
