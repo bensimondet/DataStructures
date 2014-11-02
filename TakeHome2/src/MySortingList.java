@@ -80,14 +80,19 @@ public class MySortingList<E extends Comparable<E>> implements SortingList<E>, I
 		if(index >= listCount){
 			throw new ListIndexOutOfBoundsException("The index " + index + " is not within the boundaries of the list.");
 		}
-		Node toReturn = findNode(index);
-		return toReturn.value;
+		return findNode(index).value;
 	}
 
 	@Override
 	public void remove(int index) throws ListIndexOutOfBoundsException {
-		// TODO Auto-generated method stub
-
+		if(index < 0){
+			throw new ListIndexOutOfBoundsException("The index " + index + " is not within the boundaries of the list.");
+		}
+		if(index >= listCount){
+			throw new ListIndexOutOfBoundsException("The index " + index + " is not within the boundaries of the list.");
+		}
+		Node toRemove = findNode(index);
+		toRemove.nextGreater = toRemove.nextGreater.nextGreater;
 	}
 	private Node findPlacement(E item){
 		Node placement = head;
