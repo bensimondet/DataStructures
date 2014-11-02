@@ -5,8 +5,8 @@ public class TestMySortingList{
 		testSize();
 		testUniqueValueCount();
 		testAdd();
+		testGetAndAdd();
 		testFrequencyOf();
-		testGet();
 		testRemove();
 		testClear();
 	}
@@ -35,6 +35,20 @@ public class TestMySortingList{
 		test.add(1);
 		System.out.println(test.uniqueValueCount()==1);
 	}
+	private static void testGetAndAdd() throws ListIndexOutOfBoundsException {
+		System.out.println("Testing get and add methods...");
+		MySortingList<Integer> test = new MySortingList<Integer>();
+		test.add(2);
+		test.add(1);
+		test.add(1);
+		test.add(1);
+		System.out.println(test.get(0));
+		System.out.println(test.get(1));
+		System.out.println(test.get(2));
+		System.out.println(test.get(3));
+		System.out.println(test.size());
+		
+	}
 	public static void testAdd(){
 		System.out.println("Testing add method...");
 		MySortingList<Integer> test = new MySortingList<Integer>();
@@ -44,25 +58,15 @@ public class TestMySortingList{
 		test.add(1);
 		System.out.println(test.size()==4);
 	}
-	private static void testFrequencyOf() {
+	private static void testFrequencyOf() throws ListIndexOutOfBoundsException {
 		System.out.println("Testing frequencyOf method...");
 		MySortingList<Integer> test = new MySortingList<Integer>();
 		test.add(2);
 		test.add(1);
 		test.add(1);
 		test.add(1);
+		System.out.println(test.get(0));
 		System.out.println(test.frequencyOf(1) == 3);
-	}
-	private static void testGet() throws ListIndexOutOfBoundsException {
-		System.out.println("Testing get method...");
-		MySortingList<Integer> test = new MySortingList<Integer>();
-		test.add(2);
-		test.add(1);
-		test.add(1);
-		test.add(1);
-		System.out.println(test.get(0)==1);
-		System.out.println(test.get(1)==2);
-		
 	}
 	private static void testRemove() throws ListIndexOutOfBoundsException{
 		System.out.println("Testing remove method...");
