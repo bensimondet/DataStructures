@@ -5,10 +5,6 @@ public class MySortingList<E extends Comparable<E>> implements SortingList<E>, I
 	int valueCount = 0;
 	Node head = null;
 	
-	@Override
-	public Iterator<E> iterator() {
-		return new SortingListIterator();
-	}
 
 	@Override
 	public boolean isEmpty() {
@@ -27,13 +23,26 @@ public class MySortingList<E extends Comparable<E>> implements SortingList<E>, I
 
 	@Override
 	public void add(E item) {
-		Node current = head;
-		for(int i = 0; i < size(); i++){
-			if(item.compareTo(current.value()) < 0){
-				current = nextNode;
-			}
+		//adding to an empty Sorting List
+		if(size()==0){
+			head = new Node(null, null, item);
+			listCount++;
+			valueCount++;
+			return;
 		}
-
+		//adding anywhere else
+		Node placement = findPlacement(item);
+		//if they are the same, add to minor section of list
+		if(placement.value.compareTo(item) == 0 && placement.value != null){
+			placement.nextMinor = new Node(null, null, item);
+			listCount ++;
+		}
+		//if there are no matches, add a new value to the list
+		else{
+			placement.nextMajor = new Node(placement.nextMajor,null, item);
+			listCount++;
+			valueCount++;
+		}
 	}
 
 	@Override
@@ -43,7 +52,6 @@ public class MySortingList<E extends Comparable<E>> implements SortingList<E>, I
 			try {
 				if(item.compareTo(get(i)) == 0){
 					frequencyCount ++;
-					frequencyCount = frequencyCount + Current.matches();
 				}
 			} catch (ListIndexOutOfBoundsException e) {
 				//Should never get here
@@ -54,7 +62,6 @@ public class MySortingList<E extends Comparable<E>> implements SortingList<E>, I
 
 	@Override
 	public E get(int index) throws ListIndexOutOfBoundsException {
-		checkIndex(index,  false);
 		Node current = findNode(index);
 		return current.value;
 	}
@@ -64,34 +71,48 @@ public class MySortingList<E extends Comparable<E>> implements SortingList<E>, I
 		// TODO Auto-generated method stub
 
 	}
-	
-	private void checkIndex(int index, boolean adding) throws ListIndexOutOfBoundsException {
-		if (((index >= listCount && !adding) || (index > listCount && adding)) || index < 0) {
-			throw new ListIndexOutOfBoundsException("The index " + index + " is outside the range of the list.");
+	private Node findPlacement(E item){
+		Node placement = head;
+		while(placement.nextMajor != null && placement.value.compareTo(item) <=0){
+			placement = placement.nextMajor;
 		}
+		if(placement.value != null && placement.value.compareTo(item) == 0){
+			while(placement.nextMinor != null){
+				placement = placement.nextMinor;
+			}
+		}
+		return placement;
 	}
+	
 	private Node findNode(int index) {
 		Node current = head;
 		for (int i = 0; i < index; i++) {
-			current = current.nextNode;
+			current = current.nextMajor;
 		}
 		return current;
 	}
 	@Override
 	public void clear() {
 		head = null;
+		listCount = 0;
+		valueCount = 0;
 
 	}
 	private class Node {
-		Node nextNode;
+		Node nextMajor;
+		Node nextMinor;
 		E value;
-		int matches;
 		
-		public Node(Node next, E value, int matches){
-			this.nextNode = next;
+		public Node(Node nextMajor, Node nextMinor, E value){
+			this.nextMajor = nextMajor;
+			this.nextMinor = nextMinor;
 			this.value = value;
-			this.matches = matches;
 		}
+	}
+	
+	@Override
+	public Iterator<E> iterator() {
+		return new SortingListIterator();
 	}
 	
 	private class SortingListIterator implements Iterator<E>{
@@ -105,9 +126,10 @@ public class MySortingList<E extends Comparable<E>> implements SortingList<E>, I
 		@Override
 		public E next() {
 			E toReturn = next.value;
-			next = next.nextNode;
+			next = next.nextMajor;
 			return toReturn;
 		}
+		
 		@Override
 		public void remove(){
 			throw new UnsupportedOperationException();
