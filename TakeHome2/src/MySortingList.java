@@ -25,7 +25,7 @@ public class MySortingList<E extends Comparable<E>> implements SortingList<E>, I
 	public void add(E item) {
 		//adding to an empty Sorting List
 		if(size()==0){
-			head = new Node(null, null, item);
+			head = new Node(null, 0, item);
 			listCount++;
 			valueCount++;
 			return;
@@ -34,12 +34,12 @@ public class MySortingList<E extends Comparable<E>> implements SortingList<E>, I
 		Node placement = findPlacement(item);
 		//if they are the same, add to minor section of list
 		if(placement.value.compareTo(item) == 0 && placement.value != null){
-			placement.nextMinor = new Node(null, null, item);
+			placement.next = new Node(null, placement.ofSameValue++, item);
 			listCount ++;
 		}
 		//if there are no matches, add a new value to the list
 		else{
-			placement.nextMajor = new Node(placement.nextMajor,null, item);
+			placement.next = new Node(placement.next,0, item);
 			listCount++;
 			valueCount++;
 		}
@@ -73,12 +73,12 @@ public class MySortingList<E extends Comparable<E>> implements SortingList<E>, I
 	}
 	private Node findPlacement(E item){
 		Node placement = head;
-		while(placement.nextMajor != null && placement.value.compareTo(item) <=0){
-			placement = placement.nextMajor;
+		while(placement.next != null && placement.value.compareTo(item) <=0){
+			placement = placement.next;
 		}
 		if(placement.value != null && placement.value.compareTo(item) == 0){
-			while(placement.nextMinor != null){
-				placement = placement.nextMinor;
+			while(placement.next != null){
+				placement = placement.next;
 			}
 		}
 		return placement;
@@ -87,7 +87,7 @@ public class MySortingList<E extends Comparable<E>> implements SortingList<E>, I
 	private Node findNode(int index) {
 		Node current = head;
 		for (int i = 0; i < index; i++) {
-			current = current.nextMajor;
+			current = current.next;
 		}
 		return current;
 	}
@@ -99,13 +99,13 @@ public class MySortingList<E extends Comparable<E>> implements SortingList<E>, I
 
 	}
 	private class Node {
-		Node nextMajor;
-		Node nextMinor;
+		Node next;
+		int ofSameValue;
 		E value;
 		
-		public Node(Node nextMajor, Node nextMinor, E value){
-			this.nextMajor = nextMajor;
-			this.nextMinor = nextMinor;
+		public Node(Node next, int ofSameValue, E value){
+			this.next = next;
+			this.ofSameValue = ofSameValue;
 			this.value = value;
 		}
 	}
@@ -126,7 +126,7 @@ public class MySortingList<E extends Comparable<E>> implements SortingList<E>, I
 		@Override
 		public E next() {
 			E toReturn = next.value;
-			next = next.nextMajor;
+			next = next.next;
 			return toReturn;
 		}
 		
