@@ -1,10 +1,17 @@
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+/*
+ * No I Would Not Like To Import Countdown Latch
+ * (A Short Story by Ben Simondet)
+ * Building MySortingList was quite the struggle. Every modification I made to make the list work closer to the 
+ * given specifications made everything stop working. Eclipse didn't help much with anything, thus the title. I actually used all 8 hours of the given time
+ * and more testing could be done, but I believe this to be the most challenging, and rewarding, assignment so far.
+ */
 
 public class MySortingList<E extends Comparable<E>> implements SortingList<E>, Iterable<E> {
 	int listCount = 0;
 	int valueCount = 0;
-	Node head = new Node(null, null, null);
+	Node head = null;
 	
 
 	@Override
@@ -36,16 +43,14 @@ public class MySortingList<E extends Comparable<E>> implements SortingList<E>, I
 		//if they are the same, add to minor section of list
 		if(placement.value.compareTo(item) == 0 && placement.value != null){
 			placement = new Node(placement.nextEquals, null, item);
-			listCount ++;
-		}
+			listCount ++;		
 		//if there are no matches, add a new value to the list
 		//first need to find placement if it should be first
-		else if(placement.value.compareTo(item)>0){
+		} else if (placement.value.compareTo(item)>0) {
 			head = new Node(head.nextGreater, null, item);
 			listCount++;
 			valueCount++;
-		}
-		else{
+		} else {
 			placement.nextGreater = new Node(placement.nextGreater,null, item);
 			listCount++;
 			valueCount++;
@@ -75,11 +80,8 @@ public class MySortingList<E extends Comparable<E>> implements SortingList<E>, I
 		if(index >= listCount){
 			throw new ListIndexOutOfBoundsException("The index " + index + " is not within the boundaries of the list.");
 		}
-		Iterator<E> iterator = iterator();  
-		for(int i=0; i<index; i++){
-			iterator.next();
-		}
-		return iterator.next();
+		Node toReturn = findNode(index);
+		return toReturn.value;
 	}
 
 	@Override
@@ -132,24 +134,24 @@ public class MySortingList<E extends Comparable<E>> implements SortingList<E>, I
 	}
 	
 	private class SortingListIterator implements Iterator<E>{
-		private Node currentGreater = head;
-		private Node currentEquals = head;
+		private Node main = head;
+		private Node current = head;
 		
 		@Override
 		public boolean hasNext() {
-			return currentGreater != null && currentEquals != null;
+			return current.nextEquals != null && main.nextEquals != null;
 			}
 
 		@Override
 		public E next() {
 			if (hasNext()){
-				if(currentEquals.nextEquals != null){
-					currentGreater = currentGreater.nextEquals;
+				if(current.nextEquals != null){
+					current = current.nextEquals;
 				
 				}else{
-					currentGreater = currentGreater.nextGreater;
+					main = main.nextGreater;
 				}
-				return currentGreater.value;
+				return current.value;
 			}else{
 				throw new NoSuchElementException();
 			}
@@ -159,7 +161,5 @@ public class MySortingList<E extends Comparable<E>> implements SortingList<E>, I
 		public void remove(){
 			throw new UnsupportedOperationException();
 		}
-		
 	}
-
 }
