@@ -8,6 +8,7 @@ import java.util.NoSuchElementException;
  * and more testing could be done, but I believe this to be the most challenging, and rewarding, assignment so far.
  */
 
+
 public class MySortingList<E extends Comparable<E>> implements SortingList<E>, Iterable<E> {
 	int listCount = 0;
 	int valueCount = 0;
@@ -33,27 +34,13 @@ public class MySortingList<E extends Comparable<E>> implements SortingList<E>, I
 	public void add(E item) {
 		//adding to an empty Sorting List
 		if(head == null){
-			head = new Node(null, null, item);
+			head = new Node(head, null, item, 0);
 			listCount++;
 			valueCount++;
 			return;
-		}
-		//adding anywhere else
-		Node placement = findPlacement(item);
-		//if they are the same, add to minor section of list
-		if(placement.value.compareTo(item) == 0 && placement.value != null){
-			placement = new Node(placement.nextEquals, null, item);
-			listCount ++;		
-		//if there are no matches, add a new value to the list
-		//first need to find placement if it should be first
-		} else if (placement.value.compareTo(item)>0) {
-			head = new Node(head.nextGreater, null, item);
-			listCount++;
-			valueCount++;
-		} else {
-			placement.nextGreater = new Node(placement.nextGreater,null, item);
-			listCount++;
-			valueCount++;
+		}else{
+			Node next = findPlacement(item);
+			next.nextGreater = new Node(next.nextGreater, next.nextEquals, item, 0);
 		}
 	}
 
@@ -80,7 +67,15 @@ public class MySortingList<E extends Comparable<E>> implements SortingList<E>, I
 		if(index >= listCount){
 			throw new ListIndexOutOfBoundsException("The index " + index + " is not within the boundaries of the list.");
 		}
-		return findNode(index).value;
+		Node current = head;
+		for (int i = 0; i < index; i++) {
+			if (current.subcount == 0){
+				current = current.nextGreater;
+			}else{
+				current = current.nextEquals;
+			}
+		}
+		return current.value;
 	}
 
 	@Override
@@ -94,6 +89,7 @@ public class MySortingList<E extends Comparable<E>> implements SortingList<E>, I
 		Node toRemove = findNode(index);
 		toRemove.nextGreater = toRemove.nextGreater.nextGreater;
 	}
+	
 	private Node findPlacement(E item){
 		Node placement = head;
 		while(placement.nextGreater != null && placement.value.compareTo(item) <=0){
@@ -125,11 +121,13 @@ public class MySortingList<E extends Comparable<E>> implements SortingList<E>, I
 		Node nextGreater;
 		Node nextEquals;
 		E value;
+		int subcount;
 		
-		public Node(Node nextGreater, Node nextEquals, E value){
+		public Node(Node nextGreater, Node nextEquals, E value, int subcount){
 			this.nextGreater = nextGreater;
 			this.nextEquals = nextEquals;
 			this.value = value;
+			this.subcount = subcount;
 		}
 	}
 	

@@ -42,7 +42,7 @@ public class TestMySortingList{
 		test.add(1);
 		test.add(1);
 		test.add(1);
-		System.out.println(test.get(1)==2);
+		System.out.println(test.get(0)==2);
 		System.out.println(test.size()==4);
 		
 	}
