@@ -38,12 +38,29 @@ public class MySortingList<E extends Comparable<E>> implements SortingList<E>, I
 			listCount++;
 			valueCount++;
 			return;
-		}else{
+		}else {
 			Node next = findPlacement(item);
-			next.nextGreater = new Node(next.nextGreater, next.nextEquals, item, 0);
+			if(greaterOrEquals(next,item)==true){
+				next.nextEquals = new Node(null, next.nextEquals, item, next.subcount++);
+				listCount++;
+			}else{
+				next.nextGreater = new Node(next.nextGreater, next.nextEquals, item, 0);
+				listCount++;
+				valueCount++;
+			}
 		}
 	}
 
+	public boolean greaterOrEquals(Node placement, E item) {
+		boolean toReturn;
+		if(placement.value.compareTo(item)== 0){
+			toReturn = true;
+		}else{
+			toReturn = false;
+		}
+		return toReturn;
+	}
+	
 	@Override
 	public int frequencyOf(E item) {
 		int frequencyCount = 0;

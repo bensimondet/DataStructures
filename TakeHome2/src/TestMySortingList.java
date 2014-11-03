@@ -24,7 +24,7 @@ public class TestMySortingList{
 		System.out.println(test.size() == 0);
 		test.add(1);
 		test.add(2);
-		System.out.println(test.size() == 2);
+		System.out.println(test.size()==2);
 	}
 	public static void testUniqueValueCount(){
 		System.out.println("Testing uniqueValueCount method...");
