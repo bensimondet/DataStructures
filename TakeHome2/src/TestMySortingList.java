@@ -62,7 +62,6 @@ public class TestMySortingList{
 		test.add(1);
 		test.add(1);
 		test.add(1);
-		System.out.println(test.get(0));
 		System.out.println(test.frequencyOf(1) == 3);
 	}
 	private static void testRemove() throws ListIndexOutOfBoundsException{
@@ -75,6 +74,7 @@ public class TestMySortingList{
 		System.out.println(test.size() == 4);
 		test.remove(0);
 		System.out.println(test.size() == 3);
+		System.out.println(test.get(0)==2);
 	}
 	private static void testClear() {
 		System.out.println("Testing clear method...");

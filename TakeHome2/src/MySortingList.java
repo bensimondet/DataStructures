@@ -4,8 +4,10 @@ import java.util.NoSuchElementException;
  * No I Would Not Like To Import Countdown Latch
  * (A Short Story by Ben Simondet)
  * Building MySortingList was quite the struggle. Every modification I made to make the list work closer to the 
- * given specifications made everything stop working. Eclipse didn't help much with anything, thus the title. I actually used all 8 hours of the given time
- * and more testing could be done, but I believe this to be the most challenging, and rewarding, assignment so far.
+ * given specifications made everything stop working. Eclipse didn't help much with anything, thus the title. I actually 
+ * used all 8 hours of the given time and more testing could be done, but I believe this to be the most challenging, 
+ * and rewarding, assignment so far. You will find that this program occasionally has difficulty with placement of values in
+ * the beginning of the list. More testing could be done to figure out this culprit, but I suspect that it has to do with pointers.
  */
 
 
@@ -51,16 +53,6 @@ public class MySortingList<E extends Comparable<E>> implements SortingList<E>, I
 		}
 	}
 
-	public boolean greaterOrEquals(Node placement, E item) {
-		boolean toReturn;
-		if(placement.value.compareTo(item)== 0){
-			toReturn = true;
-		}else{
-			toReturn = false;
-		}
-		return toReturn;
-	}
-	
 	@Override
 	public int frequencyOf(E item) {
 		int frequencyCount = 0;
@@ -104,9 +96,26 @@ public class MySortingList<E extends Comparable<E>> implements SortingList<E>, I
 			throw new ListIndexOutOfBoundsException("The index " + index + " is not within the boundaries of the list.");
 		}
 		Node toRemove = findNode(index);
-		toRemove.nextGreater = toRemove.nextGreater.nextGreater;
+		if(greaterOrEquals(toRemove, toRemove.value)==true){
+			toRemove = toRemove.nextEquals;
+			listCount--;
+		}else{
+			toRemove = toRemove.nextGreater;
+			listCount--;
+			valueCount--;
+		}
 	}
 	
+	public boolean greaterOrEquals(Node placement, E item) {
+		boolean toReturn;
+		if(placement.value.compareTo(item)== 0){
+			toReturn = true;
+		}else{
+			toReturn = false;
+		}
+		return toReturn;
+	}
+
 	private Node findPlacement(E item){
 		Node placement = head;
 		while(placement.nextGreater != null && placement.value.compareTo(item) <=0){
