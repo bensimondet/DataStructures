@@ -80,4 +80,24 @@ public class SortingMethods {
 			}
 		}
 	} 
+	
+	/* Public method that can be called with just an array */
+	public static <T extends Comparable<T>> void quickSort(T[] arr) {
+			quickSortRecursive(arr, 0, arr.length - 1) ;
+	}
+
+	//Private method that can be called recursively
+	private static <T extends Comparable<T>> void quickSortRecursive(T[] arr, int left, int right) {
+		
+		// Step 1: set up swap pointer index
+
+		// Step 2: swap pivot with the last value in the subarray */
+			
+		// Step 3: partition (hint: you'll need a loop)
+
+		// Step 4: Make the recursive calls
+			
+	}
+
+	
 }
