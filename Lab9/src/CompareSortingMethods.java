@@ -9,6 +9,14 @@ For Quick Sort     the comparisonCount is 1999964 and the timeElapsed is 45 ms.
 For Insertion Sort the comparisonCount is 2506330666 and the timeElapsed is 92258 ms.
 For Merge Sort     the comparisonCount is 1536498 and the timeElapsed is 140 ms.
 For Quick Sort     the comparisonCount is 1963923 and the timeElapsed is 68 ms.
+***Testing Integer Arrays of 1,000,000 Integers***
+For Insertion Sort the comparisonCount is really high and the timeElapsed is too long.
+For Merge Sort     the comparisonCount is 18674094 and the timeElapsed is 571 ms.
+For Quick Sort     the comparisonCount is 25243809 and the timeElapsed is 342 ms.
+***Testing String Arrays of 1,000,000 Strings***
+For Insertion Sort the comparisonCount is really high and the timeElapsed is too long.
+For Merge Sort     the comparisonCount is 18674257 and the timeElapsed is 973 ms.
+For Quick Sort     the comparisonCount is 26034125 and the timeElapsed is 922 ms.
  */
 
 public class CompareSortingMethods {
@@ -43,7 +51,7 @@ public class CompareSortingMethods {
 		randomInts2 = randomInts1.clone();
 		randomInts3 = randomInts1.clone();
 		
-		testTime(1, randomInts1);
+		//testTime(1, randomInts1);
 		testTime(2, randomInts2);
 		testTime(3, randomInts3);
 		
