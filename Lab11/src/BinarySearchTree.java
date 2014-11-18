@@ -61,20 +61,28 @@ public class BinarySearchTree<K extends Comparable<K>, V> {
 			return null;
 		}
 		BSTNode current = root;
-		while(current.key != null && current.key.compareTo(key) != 0){
+		while(current != null && current.key.compareTo(key) != 0){
 			if(key.compareTo(current.key) < 0){
-				current = current.leftChild;
+				if(current.leftChild == null){
+					return null;
+				} else {
+					current = current.leftChild;
+				}
 			}else{
-				current = current.rightChild;
+				if(current.rightChild == null){
+					return null;
+				}else{
+					current = current.rightChild;
+				}
 			}
-		}if(current.key == null){
+		}if(current == null){
 			return null;		
 		}else{	
 			return current.value;
 		}
 	}
-	
-		
+
+
 
 	/*
 	 * Removes an element with the given key. The resulting tree is a binary
@@ -82,9 +90,59 @@ public class BinarySearchTree<K extends Comparable<K>, V> {
 	 * the value associated with this key or null if there is no such value. 
 	 */
 	public V remove(K key) {
+		if (root == null){
+			return null;
+		}
+		BSTNode current = root;
+		boolean done = false;
+		while(current != null && current.key.compareTo(key) != 0 && done != true){
+			System.out.println(key + " " + current.key);
+			if(key.compareTo(current.key) < 0){
+				if(current.leftChild == null){
+					return null;
+				} else if(current.leftChild.key.compareTo(key)==0 || current.rightChild.key.compareTo(key)==0){
+					done = true;
+				}
+				else {
+					current = current.leftChild;
+				}
+			}else{
+				if(current.rightChild == null){
+					return null;
+				}else if(current.leftChild.key.compareTo(key)==0 || current.rightChild.key.compareTo(key)==0){
+					done = true;
+				}else {
+					current = current.rightChild;
+				}
+			}
+		}if(current == null){
+			return null;		
+		}else{	
+			System.out.println("test1");
+			if(current.leftChild.key.compareTo(key) == 0 && current.leftChild.leftChild == null && current.leftChild.rightChild == null){
+				V toReturn = current.leftChild.value;
+				current.leftChild = null;
+				return toReturn;
+			}else if(current.rightChild.key.compareTo(key) == 0 && current.rightChild.leftChild == null && current.rightChild.rightChild == null){
+				V toReturn = current.rightChild.value;
+				current.leftChild = null;
+				return toReturn;
+			}else if(current.leftChild.key.compareTo(key) == 0 && current.leftChild.leftChild == null){
+				V toReturn = current.leftChild.value;
+				current.leftChild = current.leftChild.rightChild;
+				return toReturn;
+			}else if(current.rightChild.key.compareTo(key) == 0 && current.rightChild.rightChild == null){
+				System.out.println("test");
+				V toReturn = current.rightChild.value;
+				current.rightChild = current.rightChild.leftChild;
+				return toReturn;
+			}
+			
+		}
+		System.out.println("test2");
 		return null;
 	}
-	
+
 	/*
 	 * Clears all elements from the tree.
 	 */

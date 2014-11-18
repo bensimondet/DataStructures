@@ -46,7 +46,7 @@ public class TestBST {
 	@Test
 	public void TestGetFromEmpty() {
 		assertNull(emptyTree.get(4));
-	}	
+	}
 	
 	@Test
 	public void TestGet() {
@@ -72,5 +72,13 @@ public class TestBST {
 		assertNull(eightNodesTree.get(4));
 	}	
 	
-	// to-do: tests for remove
+	@Test
+	public void TestRemove(){
+		eightNodesTree.remove(1);
+		assertNull(eightNodesTree.get(1));
+		eightNodesTree.remove(3);
+		assertNull(eightNodesTree.get(3));
+		eightNodesTree.remove(8);
+		assertNull(eightNodesTree.get(8));
+	}
 }
