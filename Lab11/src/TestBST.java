@@ -56,7 +56,7 @@ public class TestBST {
 	
 	@Test
 	public void TestGetNotThere() {
-		assertNull(eightNodesTree.get(5));
+		assertNull(eightNodesTree.get(11));
 	}	
 	
 	@Test (expected=NullPointerException.class)

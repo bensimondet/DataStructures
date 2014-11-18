@@ -13,7 +13,7 @@ public class BinarySearchTree<K extends Comparable<K>, V> {
 	 * true if the tree is empty, false otherwise
 	 */
 	public boolean isEmpty() {
-		return true;
+		return root == null;
 	}
 
 
@@ -23,7 +23,33 @@ public class BinarySearchTree<K extends Comparable<K>, V> {
 	 * a DuplicateKeyException.
 	 */
 	public void add(K key, V value) {
-
+		if (root == null){
+			root = new BSTNode(key, value);
+		}
+		BSTNode current = root;
+		boolean done = false;
+		while(!done){
+			if(key.compareTo(current.key) < 0){
+				if(current.leftChild == null){
+					current.leftChild = new BSTNode(key, value);
+					done = true;
+				}else if(key.compareTo(current.key) == 0){
+					throw new DuplicateKeyException(key);
+				}else{
+					current = current.leftChild;
+				}
+			}
+			else{
+				if(current.rightChild == null){
+					current.rightChild = new BSTNode(key, value);
+					done = true;
+				}else if(key.compareTo(current.key) == 0){
+					throw new DuplicateKeyException(key);
+				}else{
+					current = current.rightChild;
+				}
+			}
+		}
 	}
 
 	/*
@@ -31,8 +57,24 @@ public class BinarySearchTree<K extends Comparable<K>, V> {
 	 * If there is no element associated with this key, null is returned.
 	 */
 	public V get(K key) {
-		return null;
+		if (root == null){
+			return null;
+		}
+		BSTNode current = root;
+		while(current.key != null && current.key.compareTo(key) != 0){
+			if(key.compareTo(current.key) < 0){
+				current = current.leftChild;
+			}else{
+				current = current.rightChild;
+			}
+		}if(current.key == null){
+			return null;		
+		}else{	
+			return current.value;
+		}
 	}
+	
+		
 
 	/*
 	 * Removes an element with the given key. The resulting tree is a binary
@@ -47,7 +89,7 @@ public class BinarySearchTree<K extends Comparable<K>, V> {
 	 * Clears all elements from the tree.
 	 */
 	public void clear() {
-		
+		root = null;
 	}
 
 	private class BSTNode {
