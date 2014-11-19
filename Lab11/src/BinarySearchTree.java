@@ -100,7 +100,7 @@ public class BinarySearchTree<K extends Comparable<K>, V> {
 			if(key.compareTo(current.key) < 0){
 				if(current.leftChild == null){
 					return null;
-				} else if(current.leftChild.key.compareTo(key)==0 || current.rightChild.key.compareTo(key)==0){
+				} else if(current.leftChild.key.compareTo(key)==0){
 					done = true;
 				}
 				else {
@@ -109,9 +109,9 @@ public class BinarySearchTree<K extends Comparable<K>, V> {
 			}else{
 				if(current.rightChild == null){
 					return null;
-				}else if(current.leftChild.key.compareTo(key)==0 || current.rightChild.key.compareTo(key)==0){
+				}else if(current.rightChild.key.compareTo(key)==0){
 					done = true;
-				}else {
+				}else{
 					current = current.rightChild;
 				}
 			}
@@ -119,27 +119,61 @@ public class BinarySearchTree<K extends Comparable<K>, V> {
 			return null;		
 		}else{	
 			System.out.println("test1");
-			if(current.leftChild.key.compareTo(key) == 0 && current.leftChild.leftChild == null && current.leftChild.rightChild == null){
+			//leaf case left
+			if(current.leftChild != null && current.leftChild.key.compareTo(key) == 0 && current.leftChild.leftChild == null && current.leftChild.rightChild == null){
+				System.out.println("test2");
 				V toReturn = current.leftChild.value;
 				current.leftChild = null;
 				return toReturn;
-			}else if(current.rightChild.key.compareTo(key) == 0 && current.rightChild.leftChild == null && current.rightChild.rightChild == null){
+			}
+			//leaf case right
+			if(current.rightChild != null && current.rightChild.key.compareTo(key) == 0 && current.rightChild.leftChild == null && current.rightChild.rightChild == null){
+				System.out.println("test3");
 				V toReturn = current.rightChild.value;
 				current.leftChild = null;
 				return toReturn;
-			}else if(current.leftChild.key.compareTo(key) == 0 && current.leftChild.leftChild == null){
+			}
+			//has right child but no left child
+			else if(current.leftChild != null && current.leftChild.key.compareTo(key) == 0 && current.leftChild.leftChild == null && current.leftChild.rightChild != null){
+				System.out.println("test4");
 				V toReturn = current.leftChild.value;
 				current.leftChild = current.leftChild.rightChild;
 				return toReturn;
-			}else if(current.rightChild.key.compareTo(key) == 0 && current.rightChild.rightChild == null){
-				System.out.println("test");
+			}
+			//has left child but no right child
+			else if(current.rightChild != null && current.rightChild.key.compareTo(key) == 0 && current.rightChild.rightChild == null && current.rightChild.leftChild != null){
+				System.out.println("test5");
 				V toReturn = current.rightChild.value;
 				current.rightChild = current.rightChild.leftChild;
 				return toReturn;
 			}
-			
+			//right child has left and right child
+			else if(current.rightChild.rightChild != null && current.rightChild.leftChild != null){
+				System.out.println("test6");
+				V toReturnV = current.rightChild.value;
+				current.rightChild = current.rightChild.leftChild;
+				return toReturnV;
+			}
+			else if(current.leftChild.leftChild != null && current.leftChild.rightChild != null){
+				System.out.println("test7");
+				V toReturnV = current.leftChild.value;
+				current.leftChild = current.leftChild.rightChild;
+				return toReturnV;
+			}
+			else if(current.rightChild != null && current.rightChild.key.compareTo(key) == 0 && current.rightChild.rightChild != null){
+				System.out.println("test10");
+				V toReturn = current.rightChild.value;
+				current.rightChild = current.rightChild.rightChild;
+				return toReturn;
+			}
+			else if(current.leftChild != null && current.leftChild.key.compareTo(key) == 0 && current.leftChild.leftChild != null){
+				System.out.println("test11");
+				V toReturn = current.leftChild.value;
+				current.leftChild = current.leftChild.leftChild;
+				return toReturn;
+			}
 		}
-		System.out.println("test2");
+		System.out.println("test8");
 		return null;
 	}
 

@@ -78,7 +78,36 @@ public class TestBST {
 		assertNull(eightNodesTree.get(1));
 		eightNodesTree.remove(3);
 		assertNull(eightNodesTree.get(3));
+		
+	}
+	
+	@Test
+	public void TestRemove2(){
 		eightNodesTree.remove(8);
 		assertNull(eightNodesTree.get(8));
+	}
+	
+	@Test
+	public void TestRemove3(){
+		eightNodesTree.remove(6);
+		assertNull(eightNodesTree.get(6));
+		}
+	
+	@Test
+	public void TestRemove4(){
+		eightNodesTree.remove(7);
+		assertNull(eightNodesTree.get(7));
+	}
+	
+	@Test
+	public void TestRemove5(){
+		eightNodesTree.remove(5);
+		assertNull(eightNodesTree.get(5));
+	}
+	
+	@Test
+	public void TestRemove6(){
+		eightNodesTree.remove(10);
+		assertNull(eightNodesTree.get(10));
 	}
 }
